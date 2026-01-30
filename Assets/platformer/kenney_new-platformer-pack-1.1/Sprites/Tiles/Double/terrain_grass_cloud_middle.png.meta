@@ -40,15 +40,25 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
+<<<<<<< HEAD
     wrapU: 1
     wrapV: 1
     wrapW: 1
+=======
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
+>>>>>>> 22b33ddca3db76542242edb69c1e60b6d4dd3e25
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
+<<<<<<< HEAD
   spriteMeshType: 1
+=======
+  spriteMeshType: 0
+>>>>>>> 22b33ddca3db76542242edb69c1e60b6d4dd3e25
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
