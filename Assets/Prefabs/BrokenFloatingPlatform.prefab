@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 999874748649052603}
   - component: {fileID: 7032848376903249238}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: terrain_grass_cloud_right_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5461016300187557866}
   - component: {fileID: 3975826374860827500}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: terrain_grass_cloud_left_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -193,7 +193,7 @@ GameObject:
   - component: {fileID: 6769214278412663328}
   - component: {fileID: 5585071967885254956}
   - component: {fileID: 8595837649844236543}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BrokenFloatingPlatform
   m_TagString: Broken
   m_Icon: {fileID: 0}
@@ -323,7 +323,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8637158400438968913}
   - component: {fileID: 6988295851067670718}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: terrain_grass_cloud_middle_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}

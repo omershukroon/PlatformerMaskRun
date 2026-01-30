@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5931989307231542624}
   - component: {fileID: 6207126983108646546}
   - component: {fileID: 8087828173405108005}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: terrain_grass_horizontal_middle_0 (20)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
