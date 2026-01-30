@@ -29,7 +29,6 @@ public class PlatformPooler : MonoBehaviour
     {
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
 
-        // אתחול הגובה האחרון למרכז הטווח כדי להתחיל משם
         lastSpawnHeight = (minY + maxY) / 2f;
 
         foreach (Pool pool in pools)
@@ -39,6 +38,10 @@ public class PlatformPooler : MonoBehaviour
             for (int i = 0; i < pool.size; i++)
             {
                 GameObject obj = Instantiate(pool.prefab);
+
+                // הפיכת האובייקט לילד של הפולר כבר בזמן היצירה
+                obj.transform.SetParent(this.transform);
+
                 obj.SetActive(false);
 
                 if (obj.TryGetComponent(out PlatformMovement movement))
@@ -59,10 +62,11 @@ public class PlatformPooler : MonoBehaviour
 
         GameObject objectToSpawn = poolDictionary[tag].Dequeue();
 
-        // מיקום ה-X של ה-Pool Manager
+        // וידוא שהאובייקט נשאר ילד של הפולר גם בזמן השליפה
+        objectToSpawn.transform.SetParent(this.transform);
+
         float spawnX = transform.position.x;
 
-        // הגרלת גובה חכמה שמתחשבת במרחק המינימלי
         float randomY = GetSmartRandomHeight();
         lastSpawnHeight = randomY;
 
@@ -70,7 +74,6 @@ public class PlatformPooler : MonoBehaviour
 
         objectToSpawn.SetActive(true);
 
-        // הפעלת לוגיקת האורך הרנדומלי
         if (objectToSpawn.TryGetComponent(out DynamicPlatform dynamic))
         {
             dynamic.GenerateRandomLength();
@@ -86,13 +89,11 @@ public class PlatformPooler : MonoBehaviour
         return objectToSpawn;
     }
 
-    // פונקציה פנימית לחישוב גובה רנדומלי עם מרווח
     private float GetSmartRandomHeight()
     {
         float newY = lastSpawnHeight;
         int attempts = 0;
 
-        // מנסה להגריל גובה עד שהוא רחוק מספיק, אך לא יותר מ-10 ניסיונות למניעת לולאה אינסופית
         while (Mathf.Abs(newY - lastSpawnHeight) < minHeightDifference && attempts < 10)
         {
             newY = Random.Range(minY, maxY);
