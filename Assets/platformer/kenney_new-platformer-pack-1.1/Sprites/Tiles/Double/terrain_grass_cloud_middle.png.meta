@@ -40,25 +40,15 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-<<<<<<< HEAD
     wrapU: 1
     wrapV: 1
-    wrapW: 1
-=======
-    wrapU: 0
-    wrapV: 0
     wrapW: 0
->>>>>>> 22b33ddca3db76542242edb69c1e60b6d4dd3e25
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-<<<<<<< HEAD
   spriteMeshType: 1
-=======
-  spriteMeshType: 0
->>>>>>> 22b33ddca3db76542242edb69c1e60b6d4dd3e25
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -106,6 +96,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -114,19 +117,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 23
+        y: 24
         width: 128
-        height: 105
+        height: 104
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2c597ee4b35c53ce0800000000000000
-      internalID: -1426016848475351614
+      spriteID: df09765050f4c9f4da57b6c91d3249b5
+      internalID: 864452188
       vertices: []
       indices: 
       edges: []
@@ -135,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 10c699e38951ca94aa98b6b8a939902c
     internalID: 0
     vertices: []
     indices: 
@@ -143,9 +146,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      terrain_grass_cloud_middle_0: -1426016848475351614
+      terrain_grass_cloud_middle_0: 864452188
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
