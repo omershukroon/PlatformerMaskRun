@@ -3,81 +3,101 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    private Animator anim;
     private Rigidbody2D rb;
     private Camera cam;
 
-    [Header("Movement Settings")]
-    public float jumpForce = 10f;
-    public float recoverySpeed = 2f; // How fast the player moves forward
+    [Header("Global Settings")]
     public LayerMask groundLayer;
+    public float recoverySpeed = 2f;
 
+    [Header("Movement Strategies")]
+    [SerializeField] private PlayerMovementBase normalMovement;
+    [SerializeField] private PlayerMovementBase snorkelMovement;
+
+    private PlayerMovementBase currentMovement;
     private bool hasStartedRunning = false;
-    private bool isGrounded = true;
 
     void Start()
     {
-        anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        cam = Camera.main; // Get the main camera
+        cam = Camera.main;
+
+        if (normalMovement != null) normalMovement.Init(rb, this);
+        if (snorkelMovement != null) snorkelMovement.Init(rb, this);
+
+        currentMovement = normalMovement;
     }
 
     void Update()
     {
-
-        // 1. Start Running Logic
-        if (!hasStartedRunning && (Pointer.current.press.wasPressedThisFrame))
+        if (!hasStartedRunning && Pointer.current.press.wasPressedThisFrame)
         {
-
-            hasStartedRunning = true;
-            anim.SetBool("isRunning", true);
-
-            // Tell the Manager to start everything else!
-            if (GameManager.Instance != null)
-            {
-                GameManager.Instance.StartGame();
-            }
+            StartRunning();
         }
 
-        if (hasStartedRunning)
+        if (hasStartedRunning && currentMovement != null)
         {
-            HandleJump();
+            currentMovement.HandleMovement();
+
+            if (GetJumpInput())
+            {
+                currentMovement.HandleJump();
+            }
+
             HandleScreenPosition();
         }
     }
 
-    void HandleJump()
+    private void StartRunning()
     {
-        bool jumpPressed = Keyboard.current.spaceKey.wasPressedThisFrame ||
-                          (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.wasPressedThisFrame);
+        hasStartedRunning = true;
 
-        if (jumpPressed && isGrounded)
+        // במקום להפעיל פה ישירות isRunning, אנחנו נותנים ל-currentMovement
+        // לקבוע מה האנימציה המתאימה לרגע תחילת הריצה.
+        if (currentMovement != null)
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-            isGrounded = false;
-            anim.SetBool("isJumping", true);
+            currentMovement.HandleMovement();
+        }
+
+        if (GameManager.Instance != null) GameManager.Instance.StartGame();
+    }
+
+    private bool GetJumpInput()
+    {
+        return Keyboard.current.spaceKey.wasPressedThisFrame ||
+               (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.wasPressedThisFrame);
+    }
+
+    public void SetMovementStyle(bool isSnorkeling)
+    {
+        // כיבוי של שתי האסטרטגיות קודם
+        normalMovement.enabled = false;
+        snorkelMovement.enabled = false;
+
+        if (isSnorkeling)
+        {
+            currentMovement = snorkelMovement;
+        }
+        else
+        {
+            currentMovement = normalMovement;
+        }
+
+        // הפעלה של האסטרטגיה הנבחרת (זה יפעיל את ה-OnEnable שלהן)
+        currentMovement.enabled = true;
+
+        if (hasStartedRunning)
+        {
+            currentMovement.HandleMovement();
         }
     }
 
     void HandleScreenPosition()
     {
-        // Convert the player's world position to a Viewport point (0 to 1)
         Vector3 viewPos = cam.WorldToViewportPoint(transform.position);
-
-        // If viewPos.x is less than 0.1 (meaning the player is in the leftmost 10% of the screen)
-        if (viewPos.x < 0.15f) 
+        if (viewPos.x < 0.15f)
         {
-            // Move the player slightly to the right (positive X)
             transform.Translate(Vector2.right * recoverySpeed * Time.deltaTime);
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (((1 << collision.gameObject.layer) & groundLayer) != 0)
-        {
-            isGrounded = true;
-            anim.SetBool("isJumping", false);
         }
     }
 }

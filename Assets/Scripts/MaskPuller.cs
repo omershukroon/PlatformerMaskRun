@@ -4,43 +4,32 @@ using System.Collections.Generic;
 public class MaskPuller : MonoBehaviour
 {
     [Header("Pool Settings")]
-    [SerializeField] private GameObject[] maskPrefabs; 
-    [SerializeField] private int amountPerType = 3;    
+    [SerializeField] private GameObject[] maskPrefabs;
+    [SerializeField] private int amountPerType = 3;
 
     [Header("Spawn Settings")]
-    [SerializeField] private LayerMask groundLayer;    
-    [SerializeField] private float raycastStartY = 7f; 
-    [SerializeField] private float heightAboveGround = 1f; 
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private float raycastStartY = 7f;
+    [SerializeField] private float heightAboveGround = 1f;
 
     private List<GameObject> maskPool = new List<GameObject>();
     private float nextSpawnTime;
-    private bool firstSpawnSet = false; // Ensures the timer starts correctly at first click
+
+    // משתנה שישמור את שם המסכה האחרונה שיצאה
+    private string lastSpawnedMaskName = "";
 
     void Start()
     {
         InitializePool();
-
         SetNextSpawnTime();
     }
 
     void Update()
     {
-        // 1. Only run if the game has started
-        if (GameManager.Instance != null && GameManager.Instance.isGameActive)
+        if (Time.time >= nextSpawnTime)
         {
-            // 2. Initialize the first spawn timer once the game starts
-            if (!firstSpawnSet)
-            {
-                SetNextSpawnTime();
-                firstSpawnSet = true;
-            }
-
-            // 3. Regular spawning logic
-            if (Time.time >= nextSpawnTime)
-            {
-                SpawnMaskFromPool();
-                SetNextSpawnTime();
-            }
+            SpawnMaskFromPool();
+            SetNextSpawnTime();
         }
     }
 
@@ -52,7 +41,9 @@ public class MaskPuller : MonoBehaviour
             {
                 GameObject obj = Instantiate(prefab);
                 obj.transform.SetParent(this.transform);
-                obj.SetActive(false); 
+                // אנחנו נותנים לאובייקט ב-Pool את השם של הפריפב כדי שנוכל לזהות את הסוג שלו
+                obj.name = prefab.name;
+                obj.SetActive(false);
                 maskPool.Add(obj);
             }
         }
@@ -69,6 +60,9 @@ public class MaskPuller : MonoBehaviour
 
             if (mask != null)
             {
+                // עדכון השם של המסכה האחרונה שיצאה
+                lastSpawnedMaskName = mask.name;
+
                 float spawnY = hit.point.y + heightAboveGround;
                 mask.transform.position = new Vector3(currentX, spawnY, 0);
                 mask.SetActive(true);
@@ -78,13 +72,23 @@ public class MaskPuller : MonoBehaviour
 
     private GameObject GetRandomInactiveMask()
     {
+        // 1. מוצאים את כל המסכות הכבויות
         List<GameObject> inactiveMasks = maskPool.FindAll(m => !m.activeInHierarchy);
 
-        if (inactiveMasks.Count > 0)
+        if (inactiveMasks.Count == 0) return null;
+
+        // 2. מסננים החוצה את המסכות מהסוג שיצא פעם אחרונה
+        // (רק אם יש לנו יותר מסוג אחד של מסכה פנויה, כדי לא להיתקע)
+        List<GameObject> filteredMasks = inactiveMasks.FindAll(m => m.name != lastSpawnedMaskName);
+
+        // 3. אם יש מסכות מסוגים אחרים - נבחר אחת מהן
+        if (filteredMasks.Count > 0)
         {
-            return inactiveMasks[Random.Range(0, inactiveMasks.Count)];
+            return filteredMasks[Random.Range(0, filteredMasks.Count)];
         }
-        return null; 
+
+        // 4. אם נשארו רק מסכות מהסוג האחרון (מקרה קצה), נאלץ להוציא אחת מהן
+        return inactiveMasks[Random.Range(0, inactiveMasks.Count)];
     }
 
     private void SetNextSpawnTime()
