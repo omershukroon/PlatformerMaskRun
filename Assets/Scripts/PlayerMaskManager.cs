@@ -17,10 +17,8 @@ public class PlayerMaskManager : MonoBehaviour
 
     public void ActivateMaskOnFace(string maskName)
     {
-        // 1. קודם כל מכבים הכל ומאפסים את כל ה-bools
         DeactivateAllMasks();
 
-        // 2. מדליקים רק את מה שצריך
         switch (maskName.ToLower())
         {
             case "snorkle":
@@ -44,7 +42,6 @@ public class PlayerMaskManager : MonoBehaviour
                 break;
         }
 
-        // 3. עדכון ה-Theme של העולם
         if (ThemeManager.Instance != null)
         {
             ThemeManager.Instance.UpdateTheme(maskName);
@@ -53,13 +50,20 @@ public class PlayerMaskManager : MonoBehaviour
 
     public void DeactivateAllMasks()
     {
-        // כיבוי אובייקטים
+        // 1. Clear enemies from the screen whenever masks are removed
+        EnemySpawner spawner = Object.FindFirstObjectByType<EnemySpawner>();
+        if (spawner != null)
+        {
+            spawner.DestroyAllActiveEnemies();
+        }
+
+        // 2. Turn off all mask visuals
         if (snorkleMask != null) snorkleMask.SetActive(false);
         if (tenguMask != null) tenguMask.SetActive(false);
         if (gasMask != null) gasMask.SetActive(false);
         if (anonymousMask != null) anonymousMask.SetActive(false);
 
-        // איפוס משתני מצב
+        // 3. Reset all status flags
         isSnorkleMask = false;
         isTenguMask = false;
         isGasMask = false;

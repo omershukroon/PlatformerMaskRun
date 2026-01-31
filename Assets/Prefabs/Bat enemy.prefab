@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2002525237357709876
+--- !u!1 &1473086515814293456
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,39 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3294528453894507201}
-  - component: {fileID: 4395126835262470800}
-  - component: {fileID: 1687539841683771941}
-  - component: {fileID: 3610257172657431888}
+  - component: {fileID: 6235844353535296990}
+  - component: {fileID: 1213009952641437237}
+  - component: {fileID: 1108454294175946569}
+  - component: {fileID: 1718369825825659520}
   m_Layer: 0
-  m_Name: Yellow fish enemy
+  m_Name: Bat enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3294528453894507201
+--- !u!4 &6235844353535296990
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2002525237357709876}
+  m_GameObject: {fileID: 1473086515814293456}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.4, y: 2.19386, z: -1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.97425, y: 3.59863, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &4395126835262470800
+--- !u!212 &1213009952641437237
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2002525237357709876}
+  m_GameObject: {fileID: 1473086515814293456}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 6
-  m_Sprite: {fileID: -1305867569075771015, guid: 892fa465828eaaa448764242478f899e, type: 3}
+  m_Sprite: {fileID: -697763020151794088, guid: 961d743afcece7142af94ea0d63d43b6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -92,17 +92,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &1687539841683771941
+--- !u!95 &1108454294175946569
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2002525237357709876}
+  m_GameObject: {fileID: 1473086515814293456}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 82bbd310ba0721b4697b80b995ab2955, type: 2}
+  m_Controller: {fileID: 9100000, guid: eb5c9317fa586274b97a8a76d2daa3f8, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -114,18 +114,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &3610257172657431888
+--- !u!114 &1718369825825659520
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2002525237357709876}
+  m_GameObject: {fileID: 1473086515814293456}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1bfc6e9e6d1c5a641b7aaebb78f40df4, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FishPatrol
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyPatrol
   speed: 2
+  facesLeftByDefault: 1
+  isGroundedEnemy: 0
   leftLimit: -18.1
   rightLimit: 17.01
