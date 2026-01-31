@@ -4,29 +4,28 @@ using System.Collections.Generic;
 public class MaskPuller : MonoBehaviour
 {
     [Header("Pool Settings")]
-    [SerializeField] private GameObject[] maskPrefabs; // תגרור לכאן את 4 הפריפבס של המסכות
-    [SerializeField] private int amountPerType = 3;    // כמה מכל סוג ליצור
+    [SerializeField] private GameObject[] maskPrefabs;
+    [SerializeField] private int amountPerType = 3;
 
     [Header("Spawn Settings")]
-    [SerializeField] private LayerMask groundLayer;    // תבחר ב-Inspector את שכבת ה-Ground
-    [SerializeField] private float raycastStartY = 7f; // מאיזה גובה להתחיל לחפש רצפה
-    [SerializeField] private float heightAboveGround = 1f; // גובה הריחוף מעל הרצפה
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private float raycastStartY = 7f;
+    [SerializeField] private float heightAboveGround = 1f;
 
     private List<GameObject> maskPool = new List<GameObject>();
     private float nextSpawnTime;
 
+    // משתנה שישמור את שם המסכה האחרונה שיצאה
+    private string lastSpawnedMaskName = "";
+
     void Start()
     {
-        // 1. יצירת ה-Pool
         InitializePool();
-
-        // 2. קביעת זמן ההופעה הראשון (בין 15 ל-20 שניות)
         SetNextSpawnTime();
     }
 
     void Update()
     {
-        // בדיקה אם הגיע הזמן ליצור מסכה
         if (Time.time >= nextSpawnTime)
         {
             SpawnMaskFromPool();
@@ -42,7 +41,9 @@ public class MaskPuller : MonoBehaviour
             {
                 GameObject obj = Instantiate(prefab);
                 obj.transform.SetParent(this.transform);
-                obj.SetActive(false); // כבוי בברירת מחדל
+                // אנחנו נותנים לאובייקט ב-Pool את השם של הפריפב כדי שנוכל לזהות את הסוג שלו
+                obj.name = prefab.name;
+                obj.SetActive(false);
                 maskPool.Add(obj);
             }
         }
@@ -50,18 +51,18 @@ public class MaskPuller : MonoBehaviour
 
     private void SpawnMaskFromPool()
     {
-        // 1. חיפוש מיקום Y לפי ה-Ground
-        // יורים קרן מהשמיים למטה במיקום ה-X של האובייקט
         float currentX = transform.position.x;
         RaycastHit2D hit = Physics2D.Raycast(new Vector2(currentX, raycastStartY), Vector2.down, 20f, groundLayer);
 
         if (hit.collider != null)
         {
-            // 2. מציאת מסכה כבויה רנדומלית מה-Pool
             GameObject mask = GetRandomInactiveMask();
 
             if (mask != null)
             {
+                // עדכון השם של המסכה האחרונה שיצאה
+                lastSpawnedMaskName = mask.name;
+
                 float spawnY = hit.point.y + heightAboveGround;
                 mask.transform.position = new Vector3(currentX, spawnY, 0);
                 mask.SetActive(true);
@@ -71,14 +72,23 @@ public class MaskPuller : MonoBehaviour
 
     private GameObject GetRandomInactiveMask()
     {
-        // מערבב את הרשימה כדי שלא תמיד תצא אותה מסכה אם כולן פנויות
+        // 1. מוצאים את כל המסכות הכבויות
         List<GameObject> inactiveMasks = maskPool.FindAll(m => !m.activeInHierarchy);
 
-        if (inactiveMasks.Count > 0)
+        if (inactiveMasks.Count == 0) return null;
+
+        // 2. מסננים החוצה את המסכות מהסוג שיצא פעם אחרונה
+        // (רק אם יש לנו יותר מסוג אחד של מסכה פנויה, כדי לא להיתקע)
+        List<GameObject> filteredMasks = inactiveMasks.FindAll(m => m.name != lastSpawnedMaskName);
+
+        // 3. אם יש מסכות מסוגים אחרים - נבחר אחת מהן
+        if (filteredMasks.Count > 0)
         {
-            return inactiveMasks[Random.Range(0, inactiveMasks.Count)];
+            return filteredMasks[Random.Range(0, filteredMasks.Count)];
         }
-        return null; // אין מסכות פנויות ב-Pool
+
+        // 4. אם נשארו רק מסכות מהסוג האחרון (מקרה קצה), נאלץ להוציא אחת מהן
+        return inactiveMasks[Random.Range(0, inactiveMasks.Count)];
     }
 
     private void SetNextSpawnTime()
