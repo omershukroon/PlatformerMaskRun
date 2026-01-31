@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     public GameObject backgroundParent;
     public GameObject floorParent;
     public GameObject platformSpawner;
+    public GameObject maskSpawner;
+    public GameObject fishSpawner;
 
     void Awake()
     {

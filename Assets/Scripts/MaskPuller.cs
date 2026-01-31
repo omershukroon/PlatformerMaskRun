@@ -4,33 +4,43 @@ using System.Collections.Generic;
 public class MaskPuller : MonoBehaviour
 {
     [Header("Pool Settings")]
-    [SerializeField] private GameObject[] maskPrefabs; // תגרור לכאן את 4 הפריפבס של המסכות
-    [SerializeField] private int amountPerType = 3;    // כמה מכל סוג ליצור
+    [SerializeField] private GameObject[] maskPrefabs; 
+    [SerializeField] private int amountPerType = 3;    
 
     [Header("Spawn Settings")]
-    [SerializeField] private LayerMask groundLayer;    // תבחר ב-Inspector את שכבת ה-Ground
-    [SerializeField] private float raycastStartY = 7f; // מאיזה גובה להתחיל לחפש רצפה
-    [SerializeField] private float heightAboveGround = 1f; // גובה הריחוף מעל הרצפה
+    [SerializeField] private LayerMask groundLayer;    
+    [SerializeField] private float raycastStartY = 7f; 
+    [SerializeField] private float heightAboveGround = 1f; 
 
     private List<GameObject> maskPool = new List<GameObject>();
     private float nextSpawnTime;
+    private bool firstSpawnSet = false; // Ensures the timer starts correctly at first click
 
     void Start()
     {
-        // 1. יצירת ה-Pool
         InitializePool();
 
-        // 2. קביעת זמן ההופעה הראשון (בין 15 ל-20 שניות)
         SetNextSpawnTime();
     }
 
     void Update()
     {
-        // בדיקה אם הגיע הזמן ליצור מסכה
-        if (Time.time >= nextSpawnTime)
+        // 1. Only run if the game has started
+        if (GameManager.Instance != null && GameManager.Instance.isGameActive)
         {
-            SpawnMaskFromPool();
-            SetNextSpawnTime();
+            // 2. Initialize the first spawn timer once the game starts
+            if (!firstSpawnSet)
+            {
+                SetNextSpawnTime();
+                firstSpawnSet = true;
+            }
+
+            // 3. Regular spawning logic
+            if (Time.time >= nextSpawnTime)
+            {
+                SpawnMaskFromPool();
+                SetNextSpawnTime();
+            }
         }
     }
 
@@ -42,7 +52,7 @@ public class MaskPuller : MonoBehaviour
             {
                 GameObject obj = Instantiate(prefab);
                 obj.transform.SetParent(this.transform);
-                obj.SetActive(false); // כבוי בברירת מחדל
+                obj.SetActive(false); 
                 maskPool.Add(obj);
             }
         }
@@ -50,14 +60,11 @@ public class MaskPuller : MonoBehaviour
 
     private void SpawnMaskFromPool()
     {
-        // 1. חיפוש מיקום Y לפי ה-Ground
-        // יורים קרן מהשמיים למטה במיקום ה-X של האובייקט
         float currentX = transform.position.x;
         RaycastHit2D hit = Physics2D.Raycast(new Vector2(currentX, raycastStartY), Vector2.down, 20f, groundLayer);
 
         if (hit.collider != null)
         {
-            // 2. מציאת מסכה כבויה רנדומלית מה-Pool
             GameObject mask = GetRandomInactiveMask();
 
             if (mask != null)
@@ -71,14 +78,13 @@ public class MaskPuller : MonoBehaviour
 
     private GameObject GetRandomInactiveMask()
     {
-        // מערבב את הרשימה כדי שלא תמיד תצא אותה מסכה אם כולן פנויות
         List<GameObject> inactiveMasks = maskPool.FindAll(m => !m.activeInHierarchy);
 
         if (inactiveMasks.Count > 0)
         {
             return inactiveMasks[Random.Range(0, inactiveMasks.Count)];
         }
-        return null; // אין מסכות פנויות ב-Pool
+        return null; 
     }
 
     private void SetNextSpawnTime()
