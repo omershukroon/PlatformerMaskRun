@@ -3,7 +3,7 @@ using UnityEngine;
 public class BackgroundMovement : MonoBehaviour
 {
     public float speed = 5f;
-    public float resetXPosition = -15.35f;
+    public float resetXPosition = -20f;
     public float startXPosition = 15f;
 
     private float tripLength;

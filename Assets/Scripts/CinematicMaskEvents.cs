@@ -48,8 +48,6 @@ public class CinematicMaskEvents : MonoBehaviour
         PlayerMaskManager maskManager = player.GetComponent<PlayerMaskManager>();
         if (maskManager != null)
         {
-            Debug.Log("heve maskManager");
-
             maskManager.ActivateMaskOnFace(maskName);
         }
 
