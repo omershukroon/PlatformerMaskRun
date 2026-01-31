@@ -7,8 +7,8 @@ public class PlatformSpawner : MonoBehaviour
     [SerializeField] private PlatformPooler pooler;
 
     [Header("Spawn Settings")]
-    [SerializeField] private float minSpawnTime = 2f;
-    [SerializeField] private float maxSpawnTime = 4f;
+    [SerializeField] private float minSpawnTime = 1f;
+    [SerializeField] private float maxSpawnTime = 3f;
 
     [SerializeField] private string[] platformTags = { "Floating", "Broken" };
 
