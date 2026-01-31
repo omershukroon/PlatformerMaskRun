@@ -1945,6 +1945,64 @@ MonoBehaviour:
   platformTags:
   - Floating
   - Broken
+--- !u!1 &1202010445
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1202010447}
+  - component: {fileID: 1202010446}
+  m_Layer: 0
+  m_Name: EnemySpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1202010446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202010445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42f6b2ba490c0a744bbd1235dbf613f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FishSpawner
+  enemyPrefabs:
+  - {fileID: 3372678618420778784, guid: 3393820c934e6384287f852931b0b5cd, type: 3}
+  - {fileID: 2002525237357709876, guid: 7a1b9baec8f82d64cb50bdcbea143fbf, type: 3}
+  - {fileID: 1473086515814293456, guid: e4d469167f815bb41ab38207d019e879, type: 3}
+  - {fileID: 5484955974195715056, guid: 15c845975c2242e499698840f9dbd0c6, type: 3}
+  - {fileID: 4751248182017329666, guid: 331290726fc6f954fbd29e1da9842e38, type: 3}
+  enemyParent: {fileID: 1836857125}
+  maskManager: {fileID: 1397219460}
+  spawnRate: 4
+  maxEnemyCount: 5
+  minDistanceBetweenEnemies: 2.5
+  minY: -3.5
+  maxY: 4.5
+  rightLimit: 17.01
+--- !u!4 &1202010447
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202010445}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.21225, y: 3.17246, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1226428138
 GameObject:
   m_ObjectHideFlags: 0
@@ -3025,7 +3083,7 @@ MonoBehaviour:
   gasMask: {fileID: 1662847521}
   anonymousMask: {fileID: 955730436}
   Ciling: {fileID: 913389831}
-  maskDuration: 10
+  maskDuration: 20
   isSnorkleMask: 0
   isTenguMask: 0
   isGasMask: 0
@@ -3777,6 +3835,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 264345413274513934, guid: 32ee77f079a8cfc478491657cdbf61c6, type: 3}
   m_PrefabInstance: {fileID: 1663648576}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1836857124
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1836857125}
+  m_Layer: 0
+  m_Name: Enemies
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1836857125
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836857124}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.78767, y: 1.69207, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1878715251
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3875,6 +3964,8 @@ MonoBehaviour:
   backgroundParent: {fileID: 1066333221}
   floorParent: {fileID: 1529325482}
   platformSpawner: {fileID: 1153289714}
+  maskSpawner: {fileID: 0}
+  fishSpawner: {fileID: 0}
 --- !u!4 &1947226089
 Transform:
   m_ObjectHideFlags: 0
@@ -4446,3 +4537,5 @@ SceneRoots:
   - {fileID: 913389832}
   - {fileID: 789375868}
   - {fileID: 1401101156}
+  - {fileID: 1202010447}
+  - {fileID: 1836857125}

@@ -12,7 +12,7 @@ public class PlayerMaskManager : MonoBehaviour
     [SerializeField] private GameObject Ciling;
 
     [Header("Timer Settings")]
-    [SerializeField] private float maskDuration = 10f; // משך הזמן שהמסכה נשארת
+    [SerializeField] private float maskDuration = 20f; // משך הזמן שהמסכה נשארת
 
     [Header("Status Flags")]
     public bool isSnorkleMask = false;
