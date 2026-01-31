@@ -9,6 +9,7 @@ public class CinematicMaskEvents : MonoBehaviour
 
     private Transform playerTransform;
     private bool isTracking = false;
+    private GameObject player;
 
     void Update()
     {
@@ -28,7 +29,7 @@ public class CinematicMaskEvents : MonoBehaviour
     // זו הפונקציה שנקראת מה-Animation Event
     public void OnMaskEquipFinished()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
             playerTransform = player.transform;
@@ -44,14 +45,16 @@ public class CinematicMaskEvents : MonoBehaviour
         isTracking = false;
 
         // 1. הפעלת המסכה הקבועה על פני השחקן
-        //PlayerMaskManager maskManager = playerTransform.GetComponent<PlayerMaskManager>();
-        //if (maskManager != null)
-        //{
-        //    maskManager.ActivateMaskOnFace(maskName);
-        //}
+        PlayerMaskManager maskManager = player.GetComponent<PlayerMaskManager>();
+        if (maskManager != null)
+        {
+            Debug.Log("heve maskManager");
+
+            maskManager.ActivateMaskOnFace(maskName);
+        }
 
         // 2. כאן אפשר להפעיל את שינוי ה-Theme של העולם
-        Debug.Log("Mask Equipped & Theme Changed!");
+        Debug.Log("Mask " + maskName + " Equipped & Theme Changed!");
 
         transform.localPosition = new Vector3(0, 0, transform.localPosition.z);
 

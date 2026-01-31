@@ -2,7 +2,7 @@
 - Project name: PlatformerMaskRun
 - Unity version: Unity 6000.2.6f2
 - Active game object:
-  - Name: MaskPuller
+  - Name: snorkle profile TP_0
   - Tag: Untagged
   - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
