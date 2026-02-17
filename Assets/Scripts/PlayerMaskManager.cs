@@ -108,4 +108,14 @@ public class PlayerMaskManager : MonoBehaviour
         isAnonymousMask = false;
         isNoMask = true;
     }
+
+    public SpriteRenderer GetCurrentMaskSprite()
+    {
+        if (isSnorkleMask) return snorkleMask.GetComponent<SpriteRenderer>();
+        if (isTenguMask) return tenguMask.GetComponent<SpriteRenderer>();
+        if (isGasMask) return gasMask.GetComponent<SpriteRenderer>();
+        if (isAnonymousMask) return anonymousMask.GetComponent<SpriteRenderer>();
+
+        return null; // אין מסכה פעילה
+    }
 }

@@ -14,6 +14,7 @@ public class MaskPuller : MonoBehaviour
 
     private List<GameObject> maskPool = new List<GameObject>();
     private float nextSpawnTime;
+    private bool hasGameStartedBefore = false;
 
     // משתנה שישמור את שם המסכה האחרונה שיצאה
     private string lastSpawnedMaskName = "";
@@ -21,15 +22,29 @@ public class MaskPuller : MonoBehaviour
     void Start()
     {
         InitializePool();
-        SetNextSpawnTime();
     }
 
     void Update()
     {
-        if (Time.time >= nextSpawnTime)
+        if (GameManager.Instance != null && GameManager.Instance.isGameActive)
         {
-            SpawnMaskFromPool();
-            SetNextSpawnTime();
+            // אם המשחק פעיל אבל זו הפעם הראשונה שאנחנו מגלים זאת:
+            if (!hasGameStartedBefore)
+            {
+                SetNextSpawnTime(); // קבע את הדיליי הראשון מהרגע הזה
+                hasGameStartedBefore = true;
+            }
+
+            if (Time.time >= nextSpawnTime)
+            {
+                SpawnMaskFromPool();
+                SetNextSpawnTime();
+            }
+        }
+        else
+        {
+            // אם המשחק נעצר (למשל הפסד), אפשר לאפס את הדגל כדי שגם בהפעלה הבאה יהיה דיליי
+            hasGameStartedBefore = false;
         }
     }
 

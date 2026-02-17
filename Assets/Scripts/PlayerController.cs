@@ -30,11 +30,13 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (!hasStartedRunning && Pointer.current.press.wasPressedThisFrame)
+        // 1. בדיקה אם המשחק פעיל ב-GameManager
+        if (!hasStartedRunning && GameManager.Instance != null && GameManager.Instance.isGameActive)
         {
             StartRunning();
         }
 
+        // 2. רק אם השחקן כבר התחיל לרוץ, נבצע את תנועת הריצה והקפיצה
         if (hasStartedRunning && currentMovement != null)
         {
             currentMovement.HandleMovement();
@@ -52,14 +54,11 @@ public class PlayerController : MonoBehaviour
     {
         hasStartedRunning = true;
 
-        // במקום להפעיל פה ישירות isRunning, אנחנו נותנים ל-currentMovement
-        // לקבוע מה האנימציה המתאימה לרגע תחילת הריצה.
         if (currentMovement != null)
         {
             currentMovement.HandleMovement();
         }
 
-        if (GameManager.Instance != null) GameManager.Instance.StartGame();
     }
 
     private bool GetJumpInput()

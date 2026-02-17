@@ -15,6 +15,9 @@ public class EnemyPatrol : MonoBehaviour
     private EnemySpawner spawner;
     private float initialY; // NEW: To lock the mouse to the ground
 
+    [Header("Combat Settings")]
+    [SerializeField] private int damageAmount = 1;
+
     void Start()
     {
         spawner = Object.FindFirstObjectByType<EnemySpawner>();
@@ -38,6 +41,24 @@ public class EnemyPatrol : MonoBehaviour
         {
             transform.Translate(Vector2.left * speed * Time.deltaTime);
             if (transform.position.x <= leftLimit) Flip();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // בודקים אם האובייקט שנגענו בו הוא השחקן
+        if (other.CompareTag("Player"))
+        {
+            // מנסים להוציא את רכיב הבריאות מהשחקן
+            PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
+
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(damageAmount);
+
+                // כאן תוכל להוסיף דברים נוספים, כמו רעש של פגיעה
+                Debug.Log("Enemy hit the player!");
+            }
         }
     }
 
